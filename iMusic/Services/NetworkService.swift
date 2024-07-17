@@ -12,7 +12,7 @@ final class NetworkService {
     
     func fetchTracks(searchText: String, completion: @escaping (SearchResponse?) -> Void) {
         let url = "https://itunes.apple.com/search"
-        let parameters = ["term" : "\(searchText)", "limit" : "10",
+        let parameters = ["term" : "\(searchText)", "limit" : "30",
                           "media" : "music"
         ]
         
@@ -21,7 +21,7 @@ final class NetworkService {
             switch response.result {
             case .success(let objects):
                 completion(objects)
-            case .failure(let error):
+            case .failure(_):
                 completion(nil)
         }
         }

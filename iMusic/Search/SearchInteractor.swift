@@ -25,10 +25,8 @@ var networkService = NetworkService()
       
       switch request {
           
-      case .some:
-          print("interactor .some")
-          presenter?.presentData(response: Search.Model.Response.ResponseType.some)
       case .getTracks(let searchText):
+          presenter?.presentData(response: Search.Model.Response.ResponseType.presentFooterView)
           networkService.fetchTracks(searchText: searchText) { [weak self] response in
               self?.presenter?.presentData(response: Search.Model.Response.ResponseType.presentTracks(searchResponse: response))
           }
