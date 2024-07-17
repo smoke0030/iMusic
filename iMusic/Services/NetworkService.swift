@@ -20,10 +20,8 @@ final class NetworkService {
         AF.request(url, parameters: parameters).responseDecodable(of: SearchResponse.self) { response in
             switch response.result {
             case .success(let objects):
-                print(objects)
                 completion(objects)
             case .failure(let error):
-                print(error)
                 completion(nil)
         }
         }

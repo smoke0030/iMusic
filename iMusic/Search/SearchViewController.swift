@@ -61,6 +61,8 @@ class SearchViewController: UIViewController, SearchDisplayLogic {
     
     private func setupTableView() {
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: "cellId")
+        let nib = UINib(nibName: "TrackCell", bundle: nil)
+        tableView.register(nib, forCellReuseIdentifier: TrackCell.identifier)
     }
   
   func displayData(viewModel: Search.Model.ViewModel.ViewModelData) {
@@ -85,12 +87,16 @@ extension SearchViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "cellId", for: indexPath)
+        let cell = tableView.dequeueReusableCell(withIdentifier: TrackCell.identifier, for: indexPath) as! TrackCell
         let cellViewModel = searchViewModel.cells[indexPath.row]
-        cell.textLabel?.text = "\(cellViewModel.trackName)\n\(cellViewModel.artistName)"
-        cell.textLabel?.numberOfLines = 2
-        cell.imageView?.image = UIImage(named: "image")
+        cell.trackImageView.backgroundColor = .red
+        //в метод set передаем cellViewModel потому что SearchViewModel.Cell уже подписан под протокол TrackViewModel
+        cell.set(viewModel: cellViewModel)
         return cell
+    }
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        84
     }
     
     
