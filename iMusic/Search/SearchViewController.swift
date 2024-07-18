@@ -50,6 +50,7 @@ class SearchViewController: UIViewController, SearchDisplayLogic {
       
       setupSearchBar()
       setupTableView()
+      searchBar(searchController.searchBar, textDidChange: "Vudoo - Hate me")
   }
     
     private func setupSearchBar() {
@@ -114,10 +115,9 @@ extension SearchViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let cell = searchViewModel.cells[indexPath.row]
-        
-        
         let window = UIApplication.shared.windows.first
         let trackDetailView = Bundle.main.loadNibNamed("TrackDetailView", owner: self)?.first as! TrackDetailView
+        trackDetailView.set(viewModel: cell)
         window?.addSubview(trackDetailView)
     }
     
