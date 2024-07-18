@@ -9,6 +9,11 @@ import UIKit
 import SDWebImage
 import AVKit
 
+protocol TrackMovingDelegate: AnyObject {
+    func moveBackForTrack() -> SearchViewModel.Cell?
+    func moveForwardForTrack() -> SearchViewModel.Cell?
+}
+
 class TrackDetailView: UIView {
     
     @IBOutlet weak var trackImageView: UIImageView!
@@ -25,6 +30,8 @@ class TrackDetailView: UIView {
         avPlayer.automaticallyWaitsToMinimizeStalling = false
         return avPlayer
     }()
+    
+    weak var delegate: TrackMovingDelegate?
     
     //MARK: - awakeFromNib
     
@@ -127,9 +134,13 @@ class TrackDetailView: UIView {
     }
     
     @IBAction func previousTrack(_ sender: Any) {
+        guard let cellViewModel =  delegate?.moveBackForTrack() else { return }
+        self.set(viewModel: cellViewModel)
     }
     
     @IBAction func nextTrack(_ sender: Any) {
+        guard let cellViewModel =  delegate?.moveForwardForTrack() else { return }
+        self.set(viewModel: cellViewModel)
     }
     
     @IBAction func playPauseAction(_ sender: Any) {
