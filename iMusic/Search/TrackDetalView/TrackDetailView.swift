@@ -44,6 +44,7 @@ class TrackDetailView: UIView {
         authorTitleLabel.text = viewModel.artistName
         playTrack(previewUrl: viewModel.previewUrl)
         monitorStartTime()
+        observePlayerCurrentTime()
         let string600 = viewModel.iconUrlString?.replacingOccurrences(of: "100x100", with: "600x600")
         guard let url = URL(string: string600 ?? "") else { return }
         trackImageView.sd_setImage(with: url)
@@ -67,6 +68,28 @@ class TrackDetailView: UIView {
             self?.enlargeTrackImageView()
         }
     }
+    
+    private func observePlayerCurrentTime() {
+        let interval = CMTimeMake(value: 1, timescale: 2)
+        player.addPeriodicTimeObserver(forInterval: interval, queue: .main) { [weak self] time in
+            self?.currentTimeLabel.text = time.displayTimeString()
+            
+            let durationTime = self?.player.currentItem?.duration
+            let currentDurationTimeText = ((durationTime ?? CMTimeMake(value: 1, timescale: 1)) - time).displayTimeString()
+            self?.durationLabel.text = "-\(currentDurationTimeText)"
+            self?.updateCurrentTimeSlider()
+        }
+        
+    }
+    
+    // метод обновления слайдера времени
+    private func updateCurrentTimeSlider() {
+        let currentTimeSeconds = CMTimeGetSeconds(player.currentTime())
+        let trackDuration = CMTimeGetSeconds(player.currentItem?.duration ?? CMTimeMake(value: 1, timescale: 1))
+        let percentage = currentTimeSeconds / trackDuration
+        self.currentTimeSlider.value = Float(percentage)
+    }
+    
     //MARK: - Animations
     
     private func enlargeTrackImageView() {
@@ -89,10 +112,18 @@ class TrackDetailView: UIView {
         self.removeFromSuperview()
     }
     
+    //изменение времени проигрывания
     @IBAction func handleCurrentTimeSlider(_ sender: Any) {
+        let percentage = currentTimeSlider.value
+        guard let duration = player.currentItem?.duration else { return }
+        let durationInSeconds = CMTimeGetSeconds(duration)
+        let seekTimeInSeconds = Float64(percentage) * durationInSeconds
+        let seekTime = CMTimeMakeWithSeconds(seekTimeInSeconds, preferredTimescale: 1)
+        player.seek(to: seekTime)
     }
     
     @IBAction func handleVolumeSlider(_ sender: Any) {
+        player.volume = volumeSlider.value
     }
     
     @IBAction func previousTrack(_ sender: Any) {
