@@ -32,6 +32,7 @@ class TrackDetailView: UIView {
     }()
     
     weak var delegate: TrackMovingDelegate?
+    weak var tabBarDelegate: MainTabBarControllerDelegate?
     
     //MARK: - awakeFromNib
     
@@ -116,7 +117,8 @@ class TrackDetailView: UIView {
     //MARK: - IBAction's
     
     @IBAction func dragDownButtonTapped(_ sender: Any) {
-        self.removeFromSuperview()
+        self.tabBarDelegate?.minimizeTrackDetailView()
+//        self.removeFromSuperview()
     }
     
     //изменение времени проигрывания
