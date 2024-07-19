@@ -5,6 +5,7 @@
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="22684"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -14,6 +15,70 @@
             <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <subviews>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Uxi-KV-15q">
+                    <rect key="frame" x="0.0" y="59" width="393" height="64"/>
+                    <subviews>
+                        <view alpha="0.59999999999999998" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="XVg-zu-7YL">
+                            <rect key="frame" x="0.0" y="0.0" width="393" height="1"/>
+                            <color key="backgroundColor" systemColor="opaqueSeparatorColor"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="1" id="Q0F-0b-cnZ"/>
+                            </constraints>
+                        </view>
+                        <stackView opaque="NO" contentMode="scaleToFill" spacing="16" translatesAutoresizingMaskIntoConstraints="NO" id="zCh-Cz-f9g">
+                            <rect key="frame" x="8" y="8" width="377" height="48"/>
+                            <subviews>
+                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="image" translatesAutoresizingMaskIntoConstraints="NO" id="ue7-KH-2Ny">
+                                    <rect key="frame" x="0.0" y="0.0" width="48" height="48"/>
+                                    <constraints>
+                                        <constraint firstAttribute="width" constant="48" id="a81-cB-DBS"/>
+                                    </constraints>
+                                </imageView>
+                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Track title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Kvw-dx-lQz">
+                                    <rect key="frame" x="64" y="0.0" width="193" height="48"/>
+                                    <fontDescription key="fontDescription" type="system" pointSize="18"/>
+                                    <nil key="textColor"/>
+                                    <nil key="highlightedColor"/>
+                                </label>
+                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="jN1-Hx-gSE">
+                                    <rect key="frame" x="273" y="0.0" width="44" height="48"/>
+                                    <constraints>
+                                        <constraint firstAttribute="width" constant="44" id="NGt-Bd-4lj"/>
+                                    </constraints>
+                                    <color key="tintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                    <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                    <state key="normal" image="Pause"/>
+                                    <connections>
+                                        <action selector="playPauseAction:" destination="95n-tR-nER" eventType="touchUpInside" id="i2X-jm-eLr"/>
+                                    </connections>
+                                </button>
+                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="TDk-0f-OcO">
+                                    <rect key="frame" x="333" y="0.0" width="44" height="48"/>
+                                    <constraints>
+                                        <constraint firstAttribute="width" constant="44" id="jnO-Jf-eXc"/>
+                                    </constraints>
+                                    <color key="tintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                    <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                    <state key="normal" image="Right"/>
+                                    <connections>
+                                        <action selector="nextTrack:" destination="95n-tR-nER" eventType="touchUpInside" id="Z91-Z4-AYZ"/>
+                                    </connections>
+                                </button>
+                            </subviews>
+                        </stackView>
+                    </subviews>
+                    <color key="backgroundColor" systemColor="systemGray5Color"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="64" id="4nO-dO-2R5"/>
+                        <constraint firstAttribute="trailing" secondItem="zCh-Cz-f9g" secondAttribute="trailing" constant="8" id="6Up-td-gEa"/>
+                        <constraint firstItem="XVg-zu-7YL" firstAttribute="top" secondItem="Uxi-KV-15q" secondAttribute="top" id="G3l-9G-Nfy"/>
+                        <constraint firstItem="zCh-Cz-f9g" firstAttribute="top" secondItem="Uxi-KV-15q" secondAttribute="top" constant="8" id="M0t-hB-wYm"/>
+                        <constraint firstItem="zCh-Cz-f9g" firstAttribute="leading" secondItem="Uxi-KV-15q" secondAttribute="leading" constant="8" id="Rbu-TF-Z9Q"/>
+                        <constraint firstAttribute="trailing" secondItem="XVg-zu-7YL" secondAttribute="trailing" id="ZBi-g7-lc1"/>
+                        <constraint firstItem="XVg-zu-7YL" firstAttribute="leading" secondItem="Uxi-KV-15q" secondAttribute="leading" id="e4f-cm-nE9"/>
+                        <constraint firstAttribute="bottom" secondItem="zCh-Cz-f9g" secondAttribute="bottom" constant="8" id="iaV-K4-ZIL"/>
+                    </constraints>
+                </view>
                 <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="6i3-3V-wn7">
                     <rect key="frame" x="30" y="59" width="333" height="729"/>
                     <subviews>
@@ -149,13 +214,22 @@
                 <constraint firstItem="6i3-3V-wn7" firstAttribute="leading" secondItem="RSQ-E1-6Vb" secondAttribute="leading" constant="30" id="Imm-9J-bBw"/>
                 <constraint firstItem="RSQ-E1-6Vb" firstAttribute="bottom" secondItem="6i3-3V-wn7" secondAttribute="bottom" constant="30" id="MuL-GL-WdG"/>
                 <constraint firstItem="RSQ-E1-6Vb" firstAttribute="trailing" secondItem="6i3-3V-wn7" secondAttribute="trailing" constant="30" id="S5f-q4-Ch6"/>
+                <constraint firstItem="Uxi-KV-15q" firstAttribute="top" secondItem="RSQ-E1-6Vb" secondAttribute="top" id="U1T-sy-5XA"/>
                 <constraint firstItem="6i3-3V-wn7" firstAttribute="top" secondItem="RSQ-E1-6Vb" secondAttribute="top" id="Xru-Oh-5CA"/>
+                <constraint firstItem="Uxi-KV-15q" firstAttribute="leading" secondItem="RSQ-E1-6Vb" secondAttribute="leading" id="ZIe-Oa-13v"/>
+                <constraint firstItem="RSQ-E1-6Vb" firstAttribute="trailing" secondItem="Uxi-KV-15q" secondAttribute="trailing" id="joX-c3-wwW"/>
             </constraints>
             <connections>
                 <outlet property="authorTitleLabel" destination="jjh-p0-aiT" id="8r3-b2-lxn"/>
                 <outlet property="currentTimeLabel" destination="zO9-45-Fsy" id="Dgi-cg-UmC"/>
                 <outlet property="currentTimeSlider" destination="HVd-5U-swm" id="0yp-Qb-nTe"/>
                 <outlet property="durationLabel" destination="K5m-ij-90A" id="0zt-My-L7W"/>
+                <outlet property="maximizedStackView" destination="6i3-3V-wn7" id="wA3-qC-C5c"/>
+                <outlet property="miniGoForwardButton" destination="TDk-0f-OcO" id="XOs-De-A6n"/>
+                <outlet property="miniPlayPauseButton" destination="jN1-Hx-gSE" id="HHM-Wh-uII"/>
+                <outlet property="miniTrackImageView" destination="ue7-KH-2Ny" id="E7L-S1-gev"/>
+                <outlet property="miniTrackTitleLabel" destination="Kvw-dx-lQz" id="O4O-z6-PLR"/>
+                <outlet property="miniTrackView" destination="Uxi-KV-15q" id="QBx-em-xZH"/>
                 <outlet property="playPauseButton" destination="NSi-tS-2ti" id="fNT-on-X5u"/>
                 <outlet property="trackImageView" destination="tF5-vo-gn9" id="HhI-bq-yMC"/>
                 <outlet property="trackTitleLabel" destination="ztF-4i-nGh" id="dVu-M7-zBu"/>
@@ -171,5 +245,12 @@
         <image name="Pause" width="28" height="36"/>
         <image name="Right" width="34" height="20"/>
         <image name="dragDown" width="37" height="12"/>
+        <image name="image" width="163" height="163"/>
+        <systemColor name="opaqueSeparatorColor">
+            <color red="0.77647058820000003" green="0.77647058820000003" blue="0.7843137255" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </systemColor>
+        <systemColor name="systemGray5Color">
+            <color red="0.8980392157" green="0.8980392157" blue="0.91764705879999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </systemColor>
     </resources>
 </document>
