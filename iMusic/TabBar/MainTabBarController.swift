@@ -32,7 +32,8 @@ final class MainTabBarController: UITabBarController {
     }
     
     private func setupTabBar() {
-        let library = Library()
+        var library = Library()
+        library.tabBarDelegate = self
         let hostVC = UIHostingController(rootView: library)
         view.backgroundColor = .white
         tabBar.tintColor = #colorLiteral(red: 1, green: 0.1719063818, blue: 0.4505617619, alpha: 1)

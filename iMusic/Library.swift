@@ -10,7 +10,11 @@ import URLImage
 
 struct Library: View {
     
-    var tracks = UserDefaults.standard.savedTracks()
+    @State var tracks = UserDefaults.standard.savedTracks()
+    @State var showingAlert = false
+    @State private var track: SearchViewModel.Cell!
+    
+    var tabBarDelegate: MainTabBarControllerDelegate?
     
     var body: some View {
         
@@ -20,7 +24,8 @@ struct Library: View {
                 GeometryReader { geometry in
                     HStack(spacing: 20) {
                         Button(action: {
-                            print("12345")
+                            self.track = self.tracks[0]
+                            self.tabBarDelegate?.maximizeTrackDetailView(view: self.track)
                         }, label: {
                             Image(systemName: "play.fill")
                                 .accentColor(Color.init(#colorLiteral(red: 1, green: 0.1719063818, blue: 0.4505617619, alpha: 1))
@@ -30,9 +35,8 @@ struct Library: View {
                                 .cornerRadius(10)
                         })
                         
-                        
                         Button(action: {
-                            print("54321")
+                            self.tracks = UserDefaults.standard.savedTracks()
                         }, label: {
                             Image(systemName: "arrow.2.circlepath")
                                 .accentColor(Color.init(red: 1, green: 0.1719063818, blue: 0.4505617619))
@@ -49,17 +53,61 @@ struct Library: View {
                     .padding(.trailing)
                     .padding(.top)
                 
-                List(tracks) { track in
-                    LibraryCell(cell: track)
-                   
+                List {
+                    ForEach(tracks) { track in
+                        LibraryCell(cell: track)
+                            .gesture(LongPressGesture()
+                                .onEnded{ _ in
+                                    print("Pressed")
+                                    self.track = track
+                                    self.showingAlert = true
+                                }
+                                .simultaneously(with: TapGesture()
+                                    .onEnded{ _ in
+                                        let keyWindow = UIApplication.shared.connectedScenes
+                                            .filter { $0.activationState == .foregroundActive }
+                                            .map({ $0 as? UIWindowScene })
+                                            .compactMap{ $0 }.first?.windows
+                                            .filter({ $0.isKeyWindow }).first
+                                        
+                                        let tabBarVC = keyWindow?.rootViewController as? MainTabBarController
+                                        tabBarVC?.trackDetailView.delegate = self
+                                        self.track = track
+                                        self.tabBarDelegate?.maximizeTrackDetailView(view: self.track)
+                                    }))
+                    }.onDelete(perform: delete)
                 }
-            }
-            
-            
+                
+            }.actionSheet(isPresented: $showingAlert, content: {
+                ActionSheet(title: Text("Are you sure want delete this track?"), buttons: [
+                    .destructive(Text("Delete"), action: {
+                        print("Deleting:", self.track.trackName)
+                        self.delete(track: self.track)
+                    }), .cancel()
+                ])
+            })
             
             .navigationBarTitle("Library")
         }
         
+    }
+    
+    func delete(at offsets: IndexSet) {
+        tracks.remove(atOffsets: offsets)
+        if let savedData = try? NSKeyedArchiver.archivedData(withRootObject: tracks, requiringSecureCoding: false) {
+            let defaults = UserDefaults.standard
+            defaults.setValue(savedData, forKey: UserDefaults.favouriteTrackKey)
+        }
+    }
+    
+    func delete(track: SearchViewModel.Cell ) {
+        let index = self.tracks.firstIndex(of: track)
+        guard let myIndex = index else { return }
+        tracks.remove(at: myIndex)
+        if let savedData = try? NSKeyedArchiver.archivedData(withRootObject: tracks, requiringSecureCoding: false) {
+            let defaults = UserDefaults.standard
+            defaults.setValue(savedData, forKey: UserDefaults.favouriteTrackKey)
+        }
     }
 }
 
@@ -85,4 +133,37 @@ struct LibraryCell: View {
 
 #Preview {
     Library()
+}
+
+
+extension Library: TrackMovingDelegate {
+    func moveBackForTrack() -> SearchViewModel.Cell? {
+        let index = tracks.firstIndex(of: track)
+        guard let myIndex = index else { return nil }
+        var nextTrack: SearchViewModel.Cell
+        if myIndex - 1 == -1  {
+            nextTrack = tracks[tracks.count - 1]
+        } else {
+            nextTrack = tracks[myIndex - 1]
+        }
+        
+        self.track = nextTrack
+        return nextTrack
+    }
+    
+    func moveForwardForTrack() -> SearchViewModel.Cell? {
+        let index = tracks.firstIndex(of: track)
+        guard let myIndex = index else { return nil }
+        var nextTrack: SearchViewModel.Cell
+        if myIndex + 1 == tracks.count {
+            nextTrack = tracks[0]
+        } else {
+            nextTrack = tracks[myIndex + 1]
+        }
+        
+        self.track = nextTrack
+        return nextTrack
+    }
+    
+    
 }
